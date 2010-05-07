@@ -1,0 +1,73 @@
+<project basedir="./" default="build-debug-swf" name="GameOfLife">
+
+  <property file="my.properties" />
+  <property file="build.properties" />
+
+  <property name="FLEX_HOME" value="${flex.sdk.home}"/>
+  <property name="playerglobal.version" value="10"/>
+  <property name="output.path" value="${basedir}"/>
+  <property name="flex.source" value="${basedir}/src"/>
+  <property name="flex.libs" value="${basedir}/lib"/>
+  <property name="flex.output.path" value="${output.path}/deploy"/>
+  <property name="flex.output.swf" value="${flex.output.path}/main.swf"/>
+  <property name="flex.main" value="${flex.source}/GameOfLife.as"/>
+
+  <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
+
+  <target name="clean">
+    <delete file="${flex.output.swf}"/>
+  </target>
+
+  <target name="build-release-swf" description="Build release client swf">
+    <antcall target="build-swf">
+      <param name="debug" value="false"/>
+    </antcall>
+  </target>
+
+  <target name="build-debug-swf" description="Build debug client swf">
+    <antcall target="build-swf">
+      <param name="debug" value="true"/>
+    </antcall>
+  </target>
+
+  <target name="build-swf" description="Build swf">
+    <mxmlc file="${flex.main}"
+           output="${flex.output.swf}"
+           keep-generated-actionscript="false"
+           incremental="true"
+           as3="true"
+           optimize="true"
+           fork="${fork_fb}"
+           maxmemory="512m"
+           debug="${debug}"
+           locale="en_US"
+           strict="true"
+           default-frame-rate="${framesPerSecond}"
+           >
+
+      <!-- Get default compiler options. -->
+      <load-config filename="${flex.sdk.home}/frameworks/flex-config.xml"/>
+
+      <!-- List of path elements that form the roots of ActionScript class hierarchies. -->
+      <compiler.source-path path-element="${flex.source}"/>
+      <compiler.source-path path-element="${flex.sdk.home}/frameworks"/>
+
+      <compiler.library-path dir="${flex.sdk.home}/frameworks" append="true">
+	<include name="libs" />
+        <include name="../bundles/{locale}" />
+      </compiler.library-path>
+
+      <compiler.library-path dir="${litl.sdk.home}" append="true">
+        <include name="core/bin" />
+      </compiler.library-path>
+
+      <!-- if you have custom libraries you need to include, uncomment this
+      <compiler.library-path dir="${flex.libs}" append="true">
+	<include name="*" />
+      </compiler.library-path>
+      -->
+
+    </mxmlc>
+  </target>
+
+</project>
