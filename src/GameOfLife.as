@@ -93,7 +93,7 @@ package {
             }
 
             private function handleGoPressed(e:UserInputMessage):void {
-
+                gameRestart();
             }
 
             private function handleGoHeld(e:UserInputMessage):void {
