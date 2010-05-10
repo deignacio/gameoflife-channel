@@ -1,6 +1,7 @@
 package {
     import com.litl.gameoflife.GraphicsUtils;
     import com.litl.gameoflife.Model;
+    import com.litl.gameoflife.view.OptionsView;
     import com.litl.gameoflife.view.ViewBase;
     import com.litl.sdk.enum.View;
     import com.litl.sdk.enum.ViewDetails;
@@ -25,7 +26,7 @@ package {
             protected var utils:GraphicsUtils;
             private var _gameTimer:Timer;
             private var _timerLength:Number;
-
+            private var _optionsView:OptionsView;
 
             public function GameOfLife() {
 
@@ -89,7 +90,29 @@ package {
             }
 
             private function handleOptionsStatus(e:OptionsStatusMessage):void {
+                if (e.optionsOpen) {
+                    showOptions();
+                } else {
+                    hideOptions();
+                }
+            }
 
+            private function showOptions():void {
+                if (_optionsView == null || !contains(_optionsView)) {
+                    gameStop();
+                    _optionsView = new OptionsView(model, utils, service);
+                    currentView.dim();
+                    addChild(_optionsView);
+                }
+            }
+
+            private function hideOptions():void {
+                if (_optionsView != null && contains(_optionsView)) {
+                    removeChild(_optionsView);
+                    currentView.undim();
+                    _optionsView = null;
+                    gameStart();
+                }
             }
 
             private function handleGoPressed(e:UserInputMessage):void {
