@@ -4,6 +4,8 @@ package com.litl.gameoflife {
     import flash.display.Shape;
 
     public class GraphicsUtils {
+        public static const DIMMED_BACKGROUND_ALPHA:Number = 0.75;
+
         private var _height:int;
         private var _width:int;
         private var _rows:int;
@@ -24,6 +26,15 @@ package com.litl.gameoflife {
 
             _rows = _model.size;
             _cols = _model.size;
+        }
+
+        public function makeDimmer(height:int, width:int):Shape {
+            var dimmer:Shape = new Shape();
+            dimmer.graphics.beginFill(0x000000, DIMMED_BACKGROUND_ALPHA);
+            dimmer.graphics.drawRect(0, 0, width, height);
+            dimmer.graphics.endFill();
+
+            return dimmer;
         }
 
         public function makeRect(height:int, width:int):Shape {

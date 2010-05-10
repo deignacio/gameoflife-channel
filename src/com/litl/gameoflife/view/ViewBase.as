@@ -11,6 +11,7 @@ package com.litl.gameoflife.view {
         private var _model:Model;
         private var _graphicsUtils:GraphicsUtils;
         private var _shape:Shape;
+        private var _dimmer:Shape;
 
         public function ViewBase(model:Model, utils:GraphicsUtils) {
             super();
@@ -63,5 +64,18 @@ package com.litl.gameoflife.view {
             addChild(_shape);
         }
 
+        public function dim():void {
+            if (_dimmer == null) {
+                _dimmer = _graphicsUtils.makeDimmer(height, width);
+            }
+
+            addChild(_dimmer);
+        }
+
+        public function undim():void {
+            if (_dimmer) {
+                removeChild(_dimmer);
+            }
+        }
     }
 }
