@@ -4,6 +4,7 @@ package com.litl.gameoflife {
         private var _size:Number;
         private var _totalSize:Number;
         private var _currentGen:Array;
+        private var _neighborCount:Array;
         private var _tmpGen:Array;
         private var _isAlive:Boolean;
 
@@ -15,6 +16,7 @@ package com.litl.gameoflife {
             _size = 50;
             _totalSize = _size * _size;
             _currentGen = new Array(_totalSize);
+            _neighborCount = new Array(_totalSize);
             _isAlive = true;
             reseed();
         }
@@ -27,6 +29,12 @@ package com.litl.gameoflife {
                 newInitial = randomNumber(0, _totalSize-1);
                 _currentGen[newInitial] = 1;
             }
+
+            var count:int;
+            for (var j:int = 0; j < _totalSize; j++) {
+                count = countNeighbors(j);
+                _neighborCount[j] = count;
+            }
         }
 
         public function get generation():Number {
@@ -35,6 +43,10 @@ package com.litl.gameoflife {
 
         public function get currentGen():Array {
             return _currentGen;
+        }
+
+        public function get neighborCount():Array {
+            return _neighborCount;
         }
 
         public function increment():void {
@@ -46,6 +58,12 @@ package com.litl.gameoflife {
                 _tmpGen[i] = shouldLive(i);
             }
             _currentGen = _tmpGen;
+
+            var count:int;
+            for (var j:int = 0; j < _totalSize; j++) {
+                count = countNeighbors(j);
+                _neighborCount[j] = count;
+            }
         }
 
         public function get size():Number {
@@ -56,7 +74,16 @@ package com.litl.gameoflife {
             return _isAlive;
         }
 
-        private function shouldLive(index:Number):uint {
+        private function shouldLive(index:int):int {
+            var neighborCount:int = _neighborCount[index];
+            if (neighborCount == 3 ||
+                (neighborCount == 2 && _currentGen[index])) {
+                return 1;
+            }
+            return 0;
+        }
+
+        private function countNeighbors(index:int):int {
             var neighbors:Array = [
                                    _totalSize + index - _size - 1, _totalSize + index - _size, _totalSize + index - _size + 1,
                                    _totalSize + index - 1, _totalSize + index + 1,
@@ -65,12 +92,7 @@ package com.litl.gameoflife {
             for (var i:int = 0; i < neighbors.length; i++) {
                 aliveNeighbors += _currentGen[neighbors[i] % _totalSize];
             }
-
-            if (aliveNeighbors == 3 ||
-                (aliveNeighbors == 2 && _currentGen[index])) {
-                return 1;
-            }
-            return 0;
+            return aliveNeighbors;
         }
 
         private function randomNumber(low:Number=NaN, high:Number=NaN):Number {

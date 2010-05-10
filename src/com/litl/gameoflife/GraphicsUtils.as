@@ -11,12 +11,14 @@ package com.litl.gameoflife {
         private var _colSize:int;
         private var _rowSize:int;
         private var _bgColor:uint;
-        private var _otherColor:uint;
+        private var _colors:Array;
         private var _model:Model;
 
         public function GraphicsUtils(model:Model) {
             _bgColor = 0xffffff;
-            _otherColor = 0x9AD7DB;
+            _colors = [ 0xdbdbdb, 0xc8dadb, 0xa3d8db,
+                        0x9AD7DB, 0x76d5db, 0x56d3db,
+                        0x2cd0db, 0x00cedb, 0x00cedb ];
 
             _model = model;
 
@@ -43,7 +45,7 @@ package com.litl.gameoflife {
             var y:Number = 0;
             for (var i:Number = 0; i < _model.currentGen.length; i++) {
                 if (_model.currentGen[i]) {
-                    drawRect(rect, y, x, _otherColor);
+                    drawRect(rect, y, x, _colors[_model.neighborCount[i]]);
                 }
 
                 x++;
