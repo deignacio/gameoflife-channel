@@ -23,7 +23,7 @@ package com.litl.gameoflife {
 
         public function reseed():void {
             _generation = 0;
-            var initialPopulation:uint = _totalSize * randomNumber(0, 100) / 100;
+            var initialPopulation:uint = _totalSize * randomNumber(33, 100) / 100;
             var newInitial:int;
             for (var i:int = 0; i < initialPopulation; i++) {
                 newInitial = randomNumber(0, _totalSize-1);
