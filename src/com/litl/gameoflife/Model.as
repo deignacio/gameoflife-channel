@@ -14,39 +14,29 @@ package com.litl.gameoflife {
         }
 
         public function initialize():void {
-            _rows = 45;
-            _cols = 80;
-            resize();
+            _rows = 0;
+            _cols = 0;
+            resize(45, 80);
         }
 
-        private function resize():void {
-            _totalSize = _rows * _cols;
-            _currentGen = new Array(_totalSize);
-            _neighborCount = new Array(_totalSize);
-            _isAlive = true;
-            reseed();
+        public function resize(rows:int, cols:int):void {
+            if (_rows != rows || _cols != cols) {
+                _rows = rows;
+                _cols = cols;
+                _totalSize = _rows * _cols;
+                _currentGen = new Array(_totalSize);
+                _neighborCount = new Array(_totalSize);
+                _isAlive = true;
+                reseed();
+            }
         }
 
         public function get rows():Number {
             return _rows;
         }
 
-        public function set rows(value:Number):void {
-            if (value != _rows) {
-                _rows = value;
-                resize();
-            }
-        }
-
         public function get cols():Number {
             return _cols;
-        }
-
-        public function set cols(value:Number):void {
-            if (value != _cols) {
-                _cols = value;
-                resize();
-            }
         }
 
         public function reseed():void {
@@ -108,10 +98,9 @@ package com.litl.gameoflife {
         }
 
         private function countNeighbors(index:int):int {
-            var neighbors:Array = [
-                                   _totalSize + index - _cols - 1, _totalSize + index - _cols, _totalSize + index - _cols + 1,
-                                   _totalSize + index - 1, _totalSize + index + 1,
-                                   _totalSize + index + _cols - 1, _totalSize + index + _cols, _totalSize + index + _cols + 1 ]
+            var neighbors:Array = [ _totalSize + index - _cols - 1, _totalSize + index - _cols, _totalSize + index - _cols + 1,
+                                    _totalSize + index - 1, _totalSize + index + 1,
+                                    _totalSize + index + _cols - 1, _totalSize + index + _cols, _totalSize + index + _cols + 1 ]
             var aliveNeighbors:int = 0;
             for (var i:int = 0; i < neighbors.length; i++) {
                 aliveNeighbors += _currentGen[neighbors[i] % _totalSize];

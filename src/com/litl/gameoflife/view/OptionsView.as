@@ -87,8 +87,8 @@ package com.litl.gameoflife.view {
         }
 
         public function onCloseClicked(e:MouseEvent):void {
-            _model.rows = Number(_rowField.text);
-            _model.cols = Number(_colField.text);
+            _model.resize(Number(_rowField.text),
+                          Number(_colField.text));
             _service.closeOptions();
         }
 
