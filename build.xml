@@ -15,7 +15,15 @@
   <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 
   <target name="clean">
-    <delete file="${flex.output.swf}"/>
+    <delete dir="${flex.output.path}"/>
+  </target>
+
+  <target name="build-release-zip" description="Build release deploy zipfile">
+    <antcall target="clean"/>
+    <antcall target="build-release-swf"/>
+    <zip destfile="${output.path}/deploy.zip"
+         basedir="${flex.output.path}"
+         excludes="*.cache" />
   </target>
 
   <target name="build-release-swf" description="Build release client swf">
