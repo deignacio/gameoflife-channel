@@ -44,7 +44,7 @@ package {
                 _gameTimer.addEventListener("timer", onTimer);
 
                 service = new LitlService(this);
-                service.connect("litl_gameoflife", "Game of Life", "1.0", true);
+                service.connect("gameoflife", "Game of Life", "1.0", true);
 
                 service.addEventListener(InitializeMessage.INITIALIZE, handleInitialize);
                 service.addEventListener(PropertyMessage.PROPERTY_CHANGED, handlePropertyChanged);
