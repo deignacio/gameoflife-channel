@@ -5,7 +5,7 @@ initially written by David Ignacio <dignacio@litl.com>
 the inspiration for this channel was taken from Conway's game of life [0]
 
 features:
-* the "world" is currently displayed as 50x50, the sides wrap left<->right and top<->bottom to form a pseudo toroidal type of world.
+* the "world" is currently displayed as 45x80, the sides wrap left<->right and top<->bottom to form a pseudo toroidal type of world.
 * the size of the world is configurable from the options available in focus view
 * the world is initially populated randomly with >33% coverage
 * runs at one generation every 100ms

@@ -14,8 +14,8 @@ package com.litl.gameoflife {
         }
 
         public function initialize():void {
-            _rows = 50;
-            _cols = 50;
+            _rows = 45;
+            _cols = 80;
             resize();
         }
 
