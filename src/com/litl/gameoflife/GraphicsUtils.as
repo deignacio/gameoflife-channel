@@ -29,8 +29,8 @@ package com.litl.gameoflife {
         }
 
         public function makeRect(height:int, width:int):Shape {
-            var rowSize:int = height / _model.rows;
-            var colSize:int = width / _model.cols;
+            var rowSize:Number = height / _model.rows;
+            var colSize:Number = width / _model.cols;
 
             var rect:Shape = new Shape();
             rect.graphics.beginFill(_bgColor);
@@ -52,8 +52,8 @@ package com.litl.gameoflife {
             return rect;
         }
 
-        private function drawRect(shape:Shape, row:int, rowSize:int,
-                                  col:int, colSize:int, color:uint):void {
+        private function drawRect(shape:Shape, row:int, rowSize:Number,
+                                  col:int, colSize:Number, color:uint):void {
             shape.graphics.beginFill(color);
             shape.graphics.drawRect(col * colSize, row * rowSize, colSize, rowSize);
             shape.graphics.endFill();
