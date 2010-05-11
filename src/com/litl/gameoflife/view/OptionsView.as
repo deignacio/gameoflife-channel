@@ -1,4 +1,5 @@
 package com.litl.gameoflife.view {
+    import com.litl.control.Label;
     import com.litl.control.TextButton;
 
     import com.litl.gameoflife.GraphicsUtils;
@@ -9,6 +10,10 @@ package com.litl.gameoflife.view {
     import flash.display.Shape;
     import flash.display.Sprite;
     import flash.events.MouseEvent;
+    import flash.text.TextField;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFieldType;
+    import flash.text.TextFormat;
 
     public class OptionsView extends Sprite {
         private var _height:int;
@@ -17,6 +22,10 @@ package com.litl.gameoflife.view {
         private var _model:Model;
         private var _graphicsUtils:GraphicsUtils;
         private var _closeButton:TextButton;
+        private var _rowLabel:Label;
+        private var _colLabel:Label;
+        private var _rowField:TextField;
+        private var _colField:TextField;
         private var _service:LitlService;
 
         public function OptionsView(model:Model, utils:GraphicsUtils, service:LitlService) {
@@ -42,9 +51,44 @@ package com.litl.gameoflife.view {
             _closeButton.styleName = ".mainButton";
             _closeButton.addEventListener(MouseEvent.CLICK, onCloseClicked);
             addChild(_closeButton);
+
+            _rowLabel = new Label();
+            _rowLabel.text = "rows";
+            _rowLabel.move(100, 100);
+            addChild(_rowLabel);
+
+            var format:TextFormat = new TextFormat();
+            format.color = 0xffffff;
+            format.size = 21;
+            format.font = "CorpoS";
+
+            _rowField = new TextField();
+            _rowField.defaultTextFormat = format;
+            _rowField.text = String(_model.rows);
+            _rowField.type = TextFieldType.INPUT;
+            _rowField.autoSize = TextFieldAutoSize.LEFT;
+            _rowField.x = 150;
+            _rowField.y = 100;
+            addChild(_rowField);
+
+            _colLabel = new Label();
+            _colLabel.text = "cols";
+            _colLabel.move(100, 145);
+            addChild(_colLabel);
+
+            _colField = new TextField();
+            _colField.defaultTextFormat = format;
+            _colField.text = String(_model.cols);
+            _colField.type = TextFieldType.INPUT;
+            _colField.autoSize = TextFieldAutoSize.LEFT;
+            _colField.x = 150;
+            _colField.y = 145;
+            addChild(_colField);
         }
 
         public function onCloseClicked(e:MouseEvent):void {
+            _model.rows = Number(_rowField.text);
+            _model.cols = Number(_colField.text);
             _service.closeOptions();
         }
 
