@@ -8,6 +8,7 @@
   <property name="output.path" value="${basedir}"/>
   <property name="flex.source" value="${basedir}/src"/>
   <property name="flex.libs" value="${basedir}/lib"/>
+  <property name="flex.assets" value="${basedir}/assets"/>
   <property name="flex.output.path" value="${output.path}/deploy"/>
   <property name="flex.output.swf" value="${flex.output.path}/main.swf"/>
   <property name="flex.main" value="${flex.source}/GameOfLife.as"/>
@@ -30,12 +31,24 @@
     <antcall target="build-swf">
       <param name="debug" value="false"/>
     </antcall>
+    <antcall target="copy-assets"/>
   </target>
 
   <target name="build-debug-swf" description="Build debug client swf">
     <antcall target="build-swf">
       <param name="debug" value="true"/>
     </antcall>
+    <antcall target="copy-assets"/>
+  </target>
+
+  <target name="copy-assets" description="Copy assets to output path">
+    <!-- if you need to copy assets to the output path, uncomment this
+    <copy preservelastmodified="true"
+          todir="${flex.output.path}/assets"
+          verbose="true">
+      <fileset dir="${flex.assets}" />
+    </copy>
+    -->
   </target>
 
   <target name="build-swf" description="Build swf">
