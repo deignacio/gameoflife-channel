@@ -1,7 +1,7 @@
 <project basedir="./" default="build-debug-swf" name="GameOfLife">
 
-  <property file="my.properties" />
   <property file="build.properties" />
+  <property file="my.properties" />
 
   <property name="FLEX_HOME" value="${flex.sdk.home}"/>
   <property name="playerglobal.version" value="10"/>
@@ -12,7 +12,7 @@
   <property name="flex.output.path" value="${output.path}/deploy"/>
   <property name="flex.output.swf" value="${flex.output.path}/main.swf"/>
   <property name="flex.output.zip" value="${output.path}/deploy.zip"/>
-  <property name="flex.main" value="${flex.source}/GameOfLife.as"/>
+  <property name="flex.main" value="${flex.source}/${ant.project.name}.as"/>
 
   <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 
