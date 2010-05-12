@@ -11,18 +11,20 @@
   <property name="flex.assets" value="${basedir}/assets"/>
   <property name="flex.output.path" value="${output.path}/deploy"/>
   <property name="flex.output.swf" value="${flex.output.path}/main.swf"/>
+  <property name="flex.output.zip" value="${output.path}/deploy.zip"/>
   <property name="flex.main" value="${flex.source}/GameOfLife.as"/>
 
   <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 
   <target name="clean">
     <delete dir="${flex.output.path}"/>
+    <delete file="${flex.output.zip}"/>
   </target>
 
   <target name="build-release-zip" description="Build release deploy zipfile">
     <antcall target="clean"/>
     <antcall target="build-release-swf"/>
-    <zip destfile="${output.path}/deploy.zip"
+    <zip destfile="${flex.output.zip}"
          basedir="${flex.output.path}"
          excludes="*.cache" />
   </target>
