@@ -28,11 +28,11 @@ package com.litl.gameoflife {
             return dimmer;
         }
 
-        public function makeRect(height:int, width:int):Shape {
+        public function makeRect(height:int, width:int, rect:Shape):Shape {
             var rowSize:Number = height / _model.rows;
             var colSize:Number = width / _model.cols;
 
-            var rect:Shape = new Shape();
+            rect.graphics.clear();
             rect.graphics.beginFill(_bgColor);
             rect.graphics.drawRect(0, 0, width, height);
             rect.graphics.endFill();

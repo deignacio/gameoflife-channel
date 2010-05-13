@@ -57,10 +57,14 @@ package com.litl.gameoflife.view {
 
         public function drawModel():void {
             if (_shape) {
-                removeChild(_shape);
+                if (contains(_shape)) {
+                    removeChild(_shape);
+                }
+            } else {
+                _shape = new Shape();
             }
 
-            _shape = _graphicsUtils.makeRect(height, width);
+            _shape = _graphicsUtils.makeRect(height, width, _shape);
             addChild(_shape);
         }
 
