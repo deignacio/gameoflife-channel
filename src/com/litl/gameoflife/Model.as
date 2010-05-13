@@ -4,9 +4,10 @@ package com.litl.gameoflife {
         private var _cols:Number;
         private var _generation:Number;
         private var _totalSize:Number;
-        private var _currentGen:Array;
-        private var _neighborCount:Array;
-        private var _tmpGen:Array;
+        private var _currentGen:Vector.<Boolean>;
+        private var _neighborCount:Vector.<int>;
+        private var _tmpGen:Vector.<Boolean>;
+        private var _tmpNeighborCount:Vector.<int>;
         private var _isAlive:Boolean;
 
         public function Model() {
@@ -24,8 +25,8 @@ package com.litl.gameoflife {
                 _rows = rows;
                 _cols = cols;
                 _totalSize = _rows * _cols;
-                _currentGen = new Array(_totalSize);
-                _neighborCount = new Array(_totalSize);
+                _currentGen = new Vector.<Boolean>(_totalSize);
+                _neighborCount = new Vector.<int>(_totalSize);
                 _isAlive = true;
                 reseed();
             }
@@ -45,13 +46,8 @@ package com.litl.gameoflife {
             var newInitial:int;
             for (var i:int = 0; i < initialPopulation; i++) {
                 newInitial = randomNumber(0, _totalSize-1);
-                _currentGen[newInitial] = 1;
-            }
-
-            var count:int;
-            for (var j:int = 0; j < _totalSize; j++) {
-                count = countNeighbors(j);
-                _neighborCount[j] = count;
+                _currentGen[newInitial] = true;
+                updateNeighbors(newInitial, _neighborCount);
             }
         }
 
@@ -59,29 +55,27 @@ package com.litl.gameoflife {
             return _generation;
         }
 
-        public function get currentGen():Array {
+        public function get currentGen():Vector.<Boolean> {
             return _currentGen;
         }
 
-        public function get neighborCount():Array {
+        public function get neighborCount():Vector.<int> {
             return _neighborCount;
         }
 
         public function increment():void {
-            _tmpGen = new Array(_totalSize);
-
+            _tmpGen = new Vector.<Boolean>(_totalSize);
+            _tmpNeighborCount = new Vector.<int>(_totalSize);
             _generation ++;
-
+            var alive:Boolean;
             for (var i:int = 0; i < _totalSize; i++) {
-                _tmpGen[i] = shouldLive(i);
+                if (shouldLive(i)) {
+                    _tmpGen[i] = true;
+                    updateNeighbors(i, _tmpNeighborCount);
+                }
             }
             _currentGen = _tmpGen;
-
-            var count:int;
-            for (var j:int = 0; j < _totalSize; j++) {
-                count = countNeighbors(j);
-                _neighborCount[j] = count;
-            }
+            _neighborCount = _tmpNeighborCount;
         }
 
         public function get isAlive():Boolean {
@@ -97,15 +91,13 @@ package com.litl.gameoflife {
             return 0;
         }
 
-        private function countNeighbors(index:int):int {
+        private function updateNeighbors(index:int, neighborCount:Vector.<int>):void {
             var neighbors:Array = [ _totalSize + index - _cols - 1, _totalSize + index - _cols, _totalSize + index - _cols + 1,
                                     _totalSize + index - 1, _totalSize + index + 1,
-                                    _totalSize + index + _cols - 1, _totalSize + index + _cols, _totalSize + index + _cols + 1 ]
-            var aliveNeighbors:int = 0;
+                                    _totalSize + index + _cols - 1, _totalSize + index + _cols, _totalSize + index + _cols + 1 ];
             for (var i:int = 0; i < neighbors.length; i++) {
-                aliveNeighbors += _currentGen[neighbors[i] % _totalSize];
+                neighborCount[neighbors[i] % _totalSize] += 1;
             }
-            return aliveNeighbors;
         }
 
         private function randomNumber(low:Number=NaN, high:Number=NaN):Number {
