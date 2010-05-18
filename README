@@ -47,8 +47,13 @@ testing/running swf
 
 * run the simulator
 * open the built swf in a browser (i'm using firefox and chromium)
-    usually it's in ~/checkout/gameoflife-channel/deploy/main.swf
+    usually it's in ~/checkout/gameoflife-channel/build/deploy/main.swf
 
+packaging for submission
+* cd to the source (cd ~/checkout/gameoflife-channel)
+* run ant target (ant build-release-zip)
+   creates ~/checkout/build/deploy.zip for use in the developer site to
+   upload the new version of your channel
 
 urls:
 [0] http://en.wikipedia.org/wiki/Conway's_Game_of_Life
