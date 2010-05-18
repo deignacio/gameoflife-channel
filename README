@@ -31,6 +31,7 @@ this was developed using the following:
 
 setting up
 * checkout this source (i use ~/checkout/gameoflife-channel)
+* copy build.properties.template to build.properties
 * modify build.properties to point to sdk paths
     i copied the adobe flex sdk to /opt/flex-sdk_4.0.0
     and the litl flash channel sdk to /opt/litl-sdk

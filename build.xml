@@ -1,18 +1,6 @@
 <project basedir="./" default="build-debug-swf" name="GameOfLife">
 
   <property file="build.properties" />
-  <property file="my.properties" />
-
-  <property name="FLEX_HOME" value="${flex.sdk.home}"/>
-  <property name="playerglobal.version" value="10"/>
-  <property name="output.path" value="${basedir}"/>
-  <property name="flex.source" value="${basedir}/src"/>
-  <property name="flex.libs" value="${basedir}/lib"/>
-  <property name="flex.assets" value="${basedir}/assets"/>
-  <property name="flex.output.path" value="${output.path}/deploy"/>
-  <property name="flex.output.swf" value="${flex.output.path}/main.swf"/>
-  <property name="flex.output.zip" value="${output.path}/deploy.zip"/>
-  <property name="flex.main" value="${flex.source}/${ant.project.name}.as"/>
 
   <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 
@@ -63,7 +51,7 @@
            fork="${fork_fb}"
            maxmemory="512m"
            debug="${debug}"
-           locale="en_US"
+           locale="${locale}"
            strict="true"
            static-link-runtime-shared-libraries="true"
            default-frame-rate="${framesPerSecond}"
@@ -77,8 +65,8 @@
       <compiler.source-path path-element="${flex.sdk.home}/frameworks"/>
 
       <compiler.library-path dir="${flex.sdk.home}/frameworks" append="true">
-	<include name="libs" />
-        <include name="../bundles/{locale}" />
+        <include name="libs"/>
+        <include name="locale/${locale}"/>
       </compiler.library-path>
 
       <compiler.library-path dir="${litl.sdk.home}" append="true">
