@@ -27,7 +27,7 @@ this was developed using the following:
 * litl flash channel sdk [2]
 * sun java 1.6 [3]
 * ant [4]
-* adobe air 2 beta 2 (for the simulator) [5]
+* adobe air 2 rc1 (for the simulator) [5]
 
 setting up
 * checkout this source (i use ~/checkout/gameoflife-channel)
@@ -41,7 +41,7 @@ building
 
 testing/running swf
 * install flash debug plugin (/opt/flex-sdk_4.0.0/runtimes/player)
-* install adobe air beta 2 [5]
+* install adobe air 2 rc1 [5]
 * install the litl simulator (/opt/litl-sdk/simulator)
 
 * run the simulator
