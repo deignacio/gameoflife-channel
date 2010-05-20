@@ -7,6 +7,8 @@ locale = en_US
 # set these to be the appropriate values for your system
 flex.sdk.home = /opt/flex-sdk_4.0.0
 litl.sdk.home = /opt/litl-sdk
+litl.sdk.core.path = ${litl.sdk.home}/core
+litl.sdk.controls.path = ${litl.sdk.home}/controls
 
 flex.lib.player = ${flex.sdk.home}/frameworks/libs/player/
 playerglobal.version = 10

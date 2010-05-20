@@ -69,9 +69,12 @@
         <include name="locale/${locale}"/>
       </compiler.library-path>
 
-      <compiler.library-path dir="${litl.sdk.home}" append="true">
-        <include name="core/bin" />
-        <include name="controls/bin" />
+      <compiler.library-path dir="${litl.sdk.core.path}" append="true">
+        <include name="bin"/>
+      </compiler.library-path>
+
+      <compiler.library-path dir="${litl.sdk.controls.path}" append="true">
+        <include name="bin"/>
       </compiler.library-path>
 
       <!-- if you have custom libraries you need to include, uncomment this
