@@ -3,9 +3,15 @@
 # where the flex 4 sdk is installed
 flex.sdk.home = /opt/flex-sdk_4.0.0
 
-# where the built LitlSDK.swc exists
+litl.protocol.majorversion = 2
+litl.protocol.minorversion = 0
+
+# where the built bin/LitlSDK-${litl.core.version}.swc exists
+# ${litl.core.version} = ${litl.protocol.majorversion}.${litl.protocol.minorversion}
 litl.sdk.core.path = /opt/litl-sdk/core
-# where the built LitlControls.swc exists
+
+# where the built bin/LitlControls-${litl.controls.version}.swc exists
+# ${litl.controls.version} = M.m.p-sdk-${litl.core.version}
 litl.sdk.controls.path = /opt/litl-sdk/controls
 
 # change this if you're building for a different locale
@@ -38,4 +44,3 @@ custom = true
 temp.dir = /tmp
 fork_fb = true
 framesPerSecond = 15
-

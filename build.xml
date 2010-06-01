@@ -1,4 +1,6 @@
-<project basedir="./" default="build-debug-swf" name="GameOfLife">
+<project basedir="./" default="build-debug-swf" name="GameOfLife"
+         xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors"
+         xmlns:rcmp="antlib:org.apache.tools.ant.types.resources.comparators">
   <property name="build.properties.path" value="${basedir}/build.properties"/>
   <property file="${build.properties.path}"/>
 
@@ -40,7 +42,36 @@
     -->
   </target>
 
-  <target name="build-swf">
+  <target name="generate-litl-sdk-libs">
+    <restrict id="sdk-core-files">
+      <fileset dir="${litl.sdk.core.path}/bin" includes="*-${litl.protocol.majorversion}.*.swc" />
+      <rsel:compare when="ge" against="all">
+        <control>
+          <file file="${litl.sdk.core.path}/bin/*-${litl.protocol.majorversion}.${litl.protocol.minorversion}.swc" />
+        </control>
+        <rcmp:name />
+      </rsel:compare>
+    </restrict>
+    <pathconvert property="litl-sdk-core-swcs" pathsep=" " refid="sdk-core-files">
+      <globmapper from="${litl.sdk.core.path}/bin/*"
+                  to="*"/>
+    </pathconvert>
+    <restrict id="sdk-controls-files">
+      <fileset dir="${litl.sdk.controls.path}/bin" includes="*-${litl.protocol.majorversion}.*.swc" />
+      <rsel:compare when="ge" against="all">
+        <control>
+          <file file="${litl.sdk.controls.path}/bin/*-${litl.protocol.majorversion}.${litl.protocol.minorversion}.swc" />
+        </control>
+        <rcmp:name />
+      </rsel:compare>
+    </restrict>
+    <pathconvert property="litl-sdk-controls-swcs" pathsep=" " refid="sdk-controls-files">
+      <globmapper from="${litl.sdk.controls.path}/bin/*"
+                  to="*"/>
+    </pathconvert>
+  </target>
+
+  <target name="build-swf" depends="generate-litl-sdk-libs">
     <mxmlc file="${flex.main}"
            output="${flex.output.swf}"
            keep-generated-actionscript="false"
@@ -68,13 +99,15 @@
         <include name="locale/${locale}"/>
       </compiler.library-path>
 
-      <compiler.library-path dir="${litl.sdk.core.path}" append="true">
-        <include name="bin"/>
-      </compiler.library-path>
+      <compiler.library-path
+         dir="${litl.sdk.core.path}/bin"
+         includes="${litl-sdk-core-swcs}"
+         append="true"/>
 
-      <compiler.library-path dir="${litl.sdk.controls.path}" append="true">
-        <include name="bin"/>
-      </compiler.library-path>
+      <compiler.library-path
+         dir="${litl.sdk.controls.path}/bin"
+         includes="${litl-sdk-controls-swcs}"
+         append="true"/>
 
       <!-- if you have custom libraries you need to include, uncomment this
       <compiler.library-path dir="${flex.libs}" append="true">
