@@ -30,7 +30,7 @@
     <antcall target="copy-assets"/>
   </target>
 
-  <target name="copy-assets" description="Copy assets to output path">
+  <target name="copy-assets">
     <!-- if you need to copy assets to the output path, uncomment this
     <copy preservelastmodified="true"
           todir="${flex.output.path}/assets"
@@ -40,7 +40,7 @@
     -->
   </target>
 
-  <target name="build-swf" description="Build swf">
+  <target name="build-swf">
     <mxmlc file="${flex.main}"
            output="${flex.output.swf}"
            keep-generated-actionscript="false"
