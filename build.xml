@@ -5,8 +5,7 @@
   <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 
   <target name="clean">
-    <delete dir="${flex.output.path}"/>
-    <delete file="${flex.output.zip}"/>
+    <delete dir="${output.path}"/>
   </target>
 
   <target name="build-release-zip" description="Build release deploy zipfile">
@@ -48,7 +47,7 @@
            incremental="true"
            as3="true"
            optimize="true"
-           fork="${fork_fb}"
+           fork="true"
            maxmemory="512m"
            debug="${debug}"
            locale="${locale}"

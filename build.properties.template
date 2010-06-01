@@ -1,26 +1,41 @@
-custom = true
-temp.dir = /tmp
-fork_fb = true
-framesPerSecond = 15
+# set these to be the appropriate values for your system
+
+# where the flex 4 sdk is installed
+flex.sdk.home = /opt/flex-sdk_4.0.0
+
+# where the built LitlSDK.swc exists
+litl.sdk.core.path = /opt/litl-sdk/core
+# where the built LitlControls.swc exists
+litl.sdk.controls.path = /opt/litl-sdk/controls
+
+# change this if you're building for a different locale
 locale = en_US
 
-# set these to be the appropriate values for your system
-flex.sdk.home = /opt/flex-sdk_4.0.0
-litl.sdk.home = /opt/litl-sdk
-litl.sdk.core.path = ${litl.sdk.home}/core
-litl.sdk.controls.path = ${litl.sdk.home}/controls
+# customize these to fit your project organization
+flex.source = ${basedir}/src
+# if your project does not include external libs or
+# assets, you can ignore these.  however, if you do
+# have, you'll need to comment out the bits in the build.xml
+# to also perform the appropriate link/include/copy commands
+# flex.libs = ${basedir}/lib
+# flex.assets = ${basedir}/assets
 
+# could also be a .mxml file
+flex.main = ${flex.source}/${ant.project.name}.as
+
+# don't really need to pay attention below here
 flex.lib.player = ${flex.sdk.home}/frameworks/libs/player/
 playerglobal.version = 10
 FLEX_HOME = ${flex.sdk.home}
 
-flex.source = ${basedir}/src
-flex.libs = ${basedir}/lib
-flex.assets = ${basedir}/assets
-flex.main = ${flex.source}/${ant.project.name}.as
-
+# describes how the output will be organized
 output.path = ${basedir}/build
 flex.output.path = ${output.path}/deploy
 flex.output.swf = ${flex.output.path}/main.swf
-flex.output.zip - ${output.path}/deploy.zip
+flex.output.zip = ${output.path}/deploy.zip
+
+custom = true
+temp.dir = /tmp
+fork_fb = true
+framesPerSecond = 15
 
