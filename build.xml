@@ -1,6 +1,6 @@
 <project basedir="./" default="build-debug-swf" name="GameOfLife">
-
-  <property file="build.properties" />
+  <property name="build.properties.path" value="${basedir}/build.properties"/>
+  <property file="${build.properties.path}"/>
 
   <taskdef resource="flexTasks.tasks" classpath="${flex.sdk.home}/ant/lib/flexTasks.jar" />
 
