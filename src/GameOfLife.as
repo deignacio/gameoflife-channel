@@ -5,7 +5,6 @@ package {
     import com.litl.gameoflife.view.ViewBase;
     import com.litl.sdk.enum.View;
     import com.litl.sdk.enum.ViewDetails;
-    import com.litl.sdk.enum.ViewSizes;
     import com.litl.sdk.message.*;
     import com.litl.sdk.service.LitlService;
 
@@ -52,10 +51,6 @@ package {
                 service.addEventListener(UserInputMessage.GO_BUTTON_PRESSED, handleGoPressed);
                 service.addEventListener(UserInputMessage.GO_BUTTON_HELD, handleGoHeld);
                 service.addEventListener(UserInputMessage.GO_BUTTON_RELEASED, handleGoReleased);
-                service.addEventListener(UserInputMessage.WHEEL_NEXT_ITEM, handleWheelNext);
-                service.addEventListener(UserInputMessage.WHEEL_PREVIOUS_ITEM, handleWheelPrevious);
-                service.addEventListener(UserInputMessage.MOVE_NEXT_ITEM, handleMoveNext);
-                service.addEventListener(UserInputMessage.MOVE_PREVIOUS_ITEM, handleMovePrevious);
                 service.addEventListener(ViewChangeMessage.VIEW_CHANGE, handleViewChange);
             }
 
@@ -127,18 +122,6 @@ package {
 
             }
 
-            private function handleWheelNext(e:UserInputMessage):void {
-            }
-
-            private function handleWheelPrevious(e:UserInputMessage):void {
-            }
-
-            private function handleMoveNext(e:UserInputMessage):void {
-            }
-
-            private function handleMovePrevious(e:UserInputMessage):void {
-            }
-
             public function gameStart():void {
                 if (!_gameTimer.running) {
                     _gameTimer.start();
@@ -188,39 +171,12 @@ package {
 
                 currentView = views[newView];
 
-                var newWidth:Number;
-                var newHeight:Number;
-
-                switch (newView) {
-                default:
-                    throw new Error("Unknown view state");
-                    break;
-
-                case View.CHANNEL:
-                    if (currentView == null)
-                        currentView = new ViewBase(model, utils);
-                    newWidth = viewWidth > 0 ? viewWidth : ViewSizes.CHANNEL_WIDTH;
-                    newHeight = viewHeight > 0 ? viewHeight : ViewSizes.CHANNEL_HEIGHT;
-                    break;
-
-                case View.FOCUS:
-                    if (currentView == null)
-                        currentView = new ViewBase(model, utils);
-                    newWidth = viewWidth > 0 ? viewWidth : ViewSizes.FOCUS_WIDTH;
-                    newHeight = viewHeight > 0 ? viewHeight : ViewSizes.FOCUS_HEIGHT;
-                    break;
-
-                case View.CARD:
-                    if (currentView == null)
-                        currentView = new ViewBase(model, utils);
-                    newWidth = viewWidth > 0 ? viewWidth : ViewSizes.CARD_WIDTH;
-                    newHeight = viewHeight > 0 ? viewHeight : ViewSizes.CARD_HEIGHT;
-                    break;
-                }
+                if (currentView == null)
+                    currentView = new ViewBase(model, utils);
 
                 views[newView] = currentView;
 
-                currentView.setSize(newWidth, newHeight);
+                currentView.setSize(viewWidth, viewHeight);
 
                 if (!contains(currentView))
                     addChild(currentView);

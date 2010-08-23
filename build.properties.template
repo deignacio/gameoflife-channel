@@ -3,7 +3,7 @@
 # where the flex 4 sdk is installed
 flex.sdk.home = /opt/flex-sdk_4.0.0
 
-litl.protocol.majorversion = 2
+litl.protocol.majorversion = 3
 litl.protocol.minorversion = 0
 
 # where the built bin/LitlSDK-${litl.core.version}.swc exists
