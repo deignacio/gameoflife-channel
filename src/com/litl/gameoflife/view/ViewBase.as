@@ -5,7 +5,7 @@ package com.litl.gameoflife.view {
     import flash.display.Shape;
     import flash.display.Sprite;
 
-    public class ViewBase extends Sprite {
+public class ViewBase extends Sprite {
         private var _width:Number;
         private var _height:Number;
         private var _model:Model;

@@ -1,5 +1,6 @@
 package {
-    import com.litl.gameoflife.GraphicsUtils;
+import com.adobe.images.PNGEncoder;
+import com.litl.gameoflife.GraphicsUtils;
     import com.litl.gameoflife.Model;
     import com.litl.gameoflife.view.OptionsView;
     import com.litl.gameoflife.view.ViewBase;
@@ -8,11 +9,14 @@ package {
     import com.litl.sdk.message.*;
     import com.litl.sdk.service.LitlService;
 
-    import flash.display.DisplayObject;
+import flash.display.BitmapData;
+import flash.display.DisplayObject;
     import flash.display.Sprite;
     import flash.display.StageAlign;
     import flash.display.StageScaleMode;
-    import flash.utils.Dictionary;
+import flash.geom.Rectangle;
+import flash.utils.ByteArray;
+import flash.utils.Dictionary;
     import flash.utils.Timer;
     import flash.events.TimerEvent;
 
@@ -26,6 +30,9 @@ package {
             private var _gameTimer:Timer;
             private var _timerLength:Number;
             private var _optionsView:OptionsView;
+            private var _img:BitmapData;
+
+            private var _saveTimer:Timer;
 
             public function GameOfLife() {
 
@@ -38,9 +45,11 @@ package {
             protected function initialize():void {
                 model = new Model();
                 utils = new GraphicsUtils(model);
-                _timerLength = 100;
+                _timerLength = 250;
                 _gameTimer = new Timer(_timerLength);
                 _gameTimer.addEventListener("timer", onTimer);
+                _saveTimer = new Timer(1000 * 30);
+                _saveTimer.addEventListener("timer", onSaveTimer);
 
                 service = new LitlService(this);
                 service.connect("gameoflife", "Game of Life", "1.0", true);
@@ -63,6 +72,8 @@ package {
                 service.channelTitle = "Game of Life";
                 //service.channelIcon = "http://litl.com/cute.ico";
                 service.channelItemCount = 1;
+
+                _saveTimer.start();
             }
 
             /**
@@ -188,7 +199,30 @@ package {
                 } else {
                     gameStart();
                 }
-
             }
+
+            protected function onSaveTimer(e:TimerEvent):void {
+                trace("starting to save shapes.  "+new Date());
+                if (!_img) {
+                    _img = new BitmapData(300, 180, false, 0x00000000);
+                }
+                var timer:Timer = new Timer(500, 10);
+                timer.addEventListener(TimerEvent.TIMER, saveView);
+                timer.addEventListener(TimerEvent.TIMER_COMPLETE, onSaveViewDone);
+                timer.start();
+            }
+
+        private function saveView(e:TimerEvent):void {
+            _img.draw(currentView);
+            var bytes:ByteArray = _img.getPixels(new Rectangle(0, 0, 300, 180));
+            bytes.compress();
+            service.channelIcon = bytes.toString();
+            trace("byte array length:  "+bytes.length);
+        }
+
+        private function onSaveViewDone(e:TimerEvent):void {
+                trace("done saving shapes.  "+new Date());
+        }
+
         }
 }
