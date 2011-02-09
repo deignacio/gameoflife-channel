@@ -30,7 +30,7 @@ import flash.utils.Dictionary;
             private var _gameTimer:Timer;
             private var _timerLength:Number;
             private var _optionsView:OptionsView;
-            private var _img:BitmapData;
+            private var _previewKeys:Array;
 
             private var _saveTimer:Timer;
 
@@ -61,6 +61,11 @@ import flash.utils.Dictionary;
                 service.addEventListener(UserInputMessage.GO_BUTTON_HELD, handleGoHeld);
                 service.addEventListener(UserInputMessage.GO_BUTTON_RELEASED, handleGoReleased);
                 service.addEventListener(ViewChangeMessage.VIEW_CHANGE, handleViewChange);
+
+                // this stuff should go in initialize previews
+                service.addEventListener(PreviewCacheMessage.PREVIEW_CACHE, onPreviewCache);
+                service.addEventListener(PreviewsClearedMessage.PREVIEWS_CLEARED, onPreviewsCleared);
+                service.addEventListener(PreviewAddedMessage.PREVIEW_ADDED, onPreviewAdded);
             }
 
             /**
@@ -203,25 +208,42 @@ import flash.utils.Dictionary;
 
             protected function onSaveTimer(e:TimerEvent):void {
                 trace("starting to save shapes.  "+new Date());
-                if (!_img) {
-                    _img = new BitmapData(300, 180, false, 0x00000000);
+                _previewKeys = [];
+                for (var i:int = 0; i < 10; ++i) {
+                    _previewKeys.push(String(Math.random()));
                 }
-                var timer:Timer = new Timer(500, 10);
-                timer.addEventListener(TimerEvent.TIMER, saveView);
-                timer.addEventListener(TimerEvent.TIMER_COMPLETE, onSaveViewDone);
-                timer.start();
+
+                service.clearPreviews();
             }
 
-        private function saveView(e:TimerEvent):void {
-            _img.draw(currentView);
-            var bytes:ByteArray = _img.getPixels(new Rectangle(0, 0, 300, 180));
-            bytes.compress();
-            service.channelIcon = bytes.toString();
-            trace("byte array length:  "+bytes.length);
+        protected function onPreviewsCleared(e:PreviewsClearedMessage):void {
+            trace("previews cleared");
+            cacheNextPreview();
         }
 
-        private function onSaveViewDone(e:TimerEvent):void {
-                trace("done saving shapes.  "+new Date());
+        protected function cacheNextPreview():void {
+            var key:String = _previewKeys.shift();
+            if (key) {
+                trace("checking if preview for "+key+" exists");
+                service.checkCachePreview(key);
+            } else {
+                trace("done");
+            }
+        }
+
+        protected function onPreviewCache(e:PreviewCacheMessage):void {
+            if (e.exists) {
+                trace("preview exists, add it");
+                service.addPreview(e.key);
+            } else {
+                trace("preview doesn't exist, cache it");
+                service.cachePreview(e.key, currentView);
+            }
+        }
+
+        protected function onPreviewAdded(e:PreviewAddedMessage):void {
+            trace("preview added, cache next one");
+            cacheNextPreview();
         }
 
         }
